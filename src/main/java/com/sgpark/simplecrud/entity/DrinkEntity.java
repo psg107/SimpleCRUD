@@ -1,11 +1,11 @@
 package com.sgpark.simplecrud.entity;
 
 import com.sgpark.simplecrud.entity.base.BaseEntity;
-import com.sgpark.simplecrud.model.DrinkInfo;
+import com.sgpark.simplecrud.model.drink.Drink;
 
 /**
  * 음료 정보
- * @see DrinkInfo
+ * @see Drink
  */
 public class DrinkEntity extends BaseEntity {
     /**
@@ -30,27 +30,21 @@ public class DrinkEntity extends BaseEntity {
         this.regEmployeeId = regEmployeeId;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public DrinkEntity(String name, int price, int regEmployeeId) {
         this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
         this.price = price;
-    }
-
-    public int getRegEmployeeId() {
-        return regEmployeeId;
-    }
-
-    public void setRegEmployeeId(int regEmployeeId) {
         this.regEmployeeId = regEmployeeId;
     }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    public int getPrice() { return price; }
+
+    public void setPrice(int price) { this.price = price; }
+
+    public int getRegEmployeeId() { return regEmployeeId; }
+
+    public void setRegEmployeeId(int regEmployeeId) { this.regEmployeeId = regEmployeeId; }
 }

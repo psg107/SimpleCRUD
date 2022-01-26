@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/Update" method="post">
+        <input type="hidden" name="drinkId" th:value="${drink.drinkId}">
+        <input type="text" name="name" th:value="${drink.name}">
+        <input type="text" name="price" th:value="${drink.price}">
+
+        <input type="submit" value="수정하기">
+    </form>
+</body>
+</html>

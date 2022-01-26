@@ -1,16 +1,23 @@
 package com.sgpark.simplecrud.controller;
 
-import com.sgpark.simplecrud.model.DrinkInfo;
+import com.sgpark.simplecrud.model.drink.AddDrink;
+import com.sgpark.simplecrud.model.drink.UpdateDrink;
 import com.sgpark.simplecrud.service.DrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class DrinkMenuController {
+
+    /**
+     * #warning 현재 로그인한 사원번호 임시 처리..
+     */
+    private final int CURRENT_LOGIN_EMPLOYEE_ID = 1;
 
     @Autowired
     private DrinkService drinkService;
@@ -22,7 +29,7 @@ public class DrinkMenuController {
      */
     @RequestMapping("/")
     public String index(Model model){
-        var drinks = drinkService.getAllDrinkInfo();
+        var drinks = this.drinkService.getAllDrink();
 
         model.addAttribute("drinks", drinks);
         return "index";
@@ -30,21 +37,36 @@ public class DrinkMenuController {
 
     /**
      * 등록
-     * @param drinkInfo
+     * @param drink
      * @return
      */
     @RequestMapping(method = RequestMethod.POST, path = "/Insert")
-    public RedirectView insert(DrinkInfo drinkInfo) {
-        //#warning 데이터 검증은 어떻게 처리하지?
-        //#warning DrinkInfo 대신 다르게 처리..편의상 같은거씀
-
-        var added = this.drinkService.addDrink(drinkInfo);
+    public RedirectView insert(AddDrink drink) throws Exception {
+        var added = this.drinkService.addDrink(drink, CURRENT_LOGIN_EMPLOYEE_ID);
         
-        if (added == false){
-            //#warning 실패했다고 화면에 적당히 출력해주기
+        if (added == false) {
+            throw new Exception("등록 오류");
         }
 
         return new RedirectView("/");
+    }
+
+    /**
+     * 상세보기
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "/Detail/{id}")
+    public String detail(@PathVariable int id, Model model) {
+        var drinkInfo = this.drinkService.getDrink(id);
+        if (drinkInfo == null) {
+            return "index";
+        }
+
+        model.addAttribute("drink", drinkInfo);
+
+        return "detail";
     }
 
     /**
@@ -52,19 +74,25 @@ public class DrinkMenuController {
      * @throws Exception
      */
     @RequestMapping(method = RequestMethod.POST, path = "/Update")
-    public void update(DrinkInfo drinkInfo) throws Exception {
-        //#warning 데이터 검증은 어떻게 처리하지?
-        //#warning DrinkInfo 대신 다르게 처리..편의상 같은거씀
+    public RedirectView update(UpdateDrink drink) throws Exception {
+        var updated = this.drinkService.updateDrink(drink, CURRENT_LOGIN_EMPLOYEE_ID);
+        if (updated == false) {
+            throw new Exception("수정 오류");
+        }
 
-        throw new Exception("만들어야해");
+        return new RedirectView("/");
     }
 
     /**
      * 삭제
      * @throws Exception
      */
-    @RequestMapping(method = RequestMethod.POST, path = "/Delete")
-    public void delete(int id) throws Exception {
-        throw new Exception("만들어야해");
+    @RequestMapping(method = RequestMethod.DELETE, path = "/Delete/{id}")
+    public ResponseEntity<Integer> delete(@PathVariable int id) {
+        var deleted = this.drinkService.deleteDrink(id);
+        if (deleted == false){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

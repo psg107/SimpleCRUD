@@ -1,11 +1,11 @@
-package com.sgpark.simplecrud.model;
+package com.sgpark.simplecrud.model.drink;
 
 /**
  * 음료 정보
  * @see com.sgpark.simplecrud.entity.DrinkEntity
  * @see com.sgpark.simplecrud.entity.EmployeeEntity
  */
-public class DrinkInfo {
+public class Drink {
     /**
      * id
      */
