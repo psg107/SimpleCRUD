@@ -23,16 +23,26 @@ public class DrinkMenuController {
     private DrinkService drinkService;
 
     /**
-     * 조회
+     * 조회 페이지로 이동
      * @param model
      * @return
      */
-    @RequestMapping("/")
+    @RequestMapping(method = RequestMethod.GET, path = "/")
     public String index(Model model){
         var drinks = this.drinkService.getAllDrink();
 
         model.addAttribute("drinks", drinks);
         return "index";
+    }
+
+    /**
+     * 등록 페이지로 이동
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "/Insert")
+    public String insert() throws Exception {
+
+        return "insert";
     }
 
     /**
@@ -52,7 +62,7 @@ public class DrinkMenuController {
     }
 
     /**
-     * 상세보기
+     * 상세보기 페이지로 이동
      * @param id
      * @param model
      * @return
