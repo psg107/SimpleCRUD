@@ -9,12 +9,13 @@ import java.util.ArrayList;
 @Component("TestInMemoryDrinkRepository")
 public class InMemoryDrinkRepository extends InMemoryRepositoryBase<DrinkEntity> {
 
-    public InMemoryDrinkRepository() {
+    @Override
+    public ArrayList<DrinkEntity> getInMemoryTestList() {
         var testList = new ArrayList<DrinkEntity>();
         testList.add(new DrinkEntity(0, "아메리카노", 2500, 0));
         testList.add(new DrinkEntity(1, "비싼아메리카노", 4500, 2));
         testList.add(new DrinkEntity(2, "싼아메리카노", 500, 2));
 
-        super.setInMemoryTestList(testList);
+        return testList;
     }
 }

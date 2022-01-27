@@ -2,6 +2,7 @@ package com.sgpark.simplecrud.repository.inMemory.base;
 
 import com.sgpark.simplecrud.entity.base.BaseEntity;
 import com.sgpark.simplecrud.repository.base.IRepositoryBase;
+import com.sgpark.simplecrud.repository.inMemory.InMemoryDrinkRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,9 +14,11 @@ import java.util.Comparator;
 public abstract class InMemoryRepositoryBase<T extends BaseEntity> implements IRepositoryBase<T> {
     private ArrayList<T> inMemoryTestList;
 
-    public void setInMemoryTestList(ArrayList<T> inMemoryTestList){
-        this.inMemoryTestList = inMemoryTestList;
+    public InMemoryRepositoryBase(){
+        this.inMemoryTestList = this.getInMemoryTestList();
     }
+
+    public abstract ArrayList<T> getInMemoryTestList();
 
     @Override
     public boolean insert(T entity) {
