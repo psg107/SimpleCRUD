@@ -2,7 +2,7 @@ package com.sgpark.simplecrud.controller;
 
 import com.sgpark.simplecrud.model.drink.AddDrink;
 import com.sgpark.simplecrud.model.drink.UpdateDrink;
-import com.sgpark.simplecrud.service.DrinkService;
+import com.sgpark.simplecrud.service.DrinkServiceInMemory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class DrinkMenuController {
     private final int CURRENT_LOGIN_EMPLOYEE_ID = 1;
 
     @Autowired
-    private DrinkService drinkService;
+    private DrinkServiceInMemory drinkService;
 
     /**
      * 조회 페이지로 이동
@@ -32,6 +32,7 @@ public class DrinkMenuController {
         var drinks = this.drinkService.getAllDrink();
 
         model.addAttribute("drinks", drinks);
+
         return "index";
     }
 
@@ -41,7 +42,6 @@ public class DrinkMenuController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/Insert")
     public String insert() throws Exception {
-
         return "insert";
     }
 
@@ -53,7 +53,6 @@ public class DrinkMenuController {
     @RequestMapping(method = RequestMethod.POST, path = "/Insert")
     public RedirectView insert(AddDrink drink) throws Exception {
         var added = this.drinkService.addDrink(drink, CURRENT_LOGIN_EMPLOYEE_ID);
-        
         if (added == false) {
             throw new Exception("등록 오류");
         }
@@ -103,6 +102,7 @@ public class DrinkMenuController {
         if (deleted == false){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -6,6 +6,7 @@ import com.sgpark.simplecrud.model.drink.Drink;
 import com.sgpark.simplecrud.model.drink.AddDrink;
 import com.sgpark.simplecrud.model.drink.UpdateDrink;
 import com.sgpark.simplecrud.repository.base.IRepositoryBase;
+import com.sgpark.simplecrud.service.base.IDrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -15,21 +16,23 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class DrinkService {
+@Qualifier("DrinkServiceInMemory")
+public class DrinkServiceInMemory implements IDrinkService {
     @Autowired
     @Qualifier("TestInMemoryDrinkRepository")
-//@Qualifier("MybatisDrinkRepository")
+    //@Qualifier("MybatisDrinkRepository")
     private IRepositoryBase<DrinkEntity> drinkRepository;
 
     @Autowired
     @Qualifier("TestInMemoryEmployeeRepository")
-//@Qualifier("MybatisEmployeeRepository")
+    //@Qualifier("MybatisEmployeeRepository")
     private IRepositoryBase<EmployeeEntity> employeeRepository;
 
     /**
      * 모든 음료 정보 가져오기
      * @return
      */
+    @Override
     public ArrayList<Drink> getAllDrink() {
         var drinkEntities = this.drinkRepository.getAll();
         var employeeEntities = this.employeeRepository.getAll();
@@ -58,7 +61,8 @@ public class DrinkService {
      * @param drinkId
      * @return
      */
-    public Drink getDrink(int drinkId){
+    @Override
+    public Drink getDrink(int drinkId) {
         var drinkInfo = this.getAllDrink().stream()
                 .filter(x -> x.getDrinkId() == drinkId)
                 .findFirst()
@@ -72,6 +76,7 @@ public class DrinkService {
      * @param drink
      * @return
      */
+    @Override
     public boolean addDrink(AddDrink drink, int employeeId) {
         var drinkEntity = new DrinkEntity(drink.getName(), drink.getPrice(), employeeId);
         var inserted = this.drinkRepository.insert(drinkEntity);
@@ -85,6 +90,7 @@ public class DrinkService {
      * @param employeeId
      * @return
      */
+    @Override
     public boolean updateDrink(UpdateDrink drink, int employeeId) {
         var drinkId = drink.getDrinkId();
         var savedDrinkEntity = this.drinkRepository.getById(drinkId);
@@ -105,6 +111,7 @@ public class DrinkService {
      * @param drinkId
      * @return
      */
+    @Override
     public boolean deleteDrink(int drinkId) {
         var deleted = this.drinkRepository.delete(drinkId);
 
