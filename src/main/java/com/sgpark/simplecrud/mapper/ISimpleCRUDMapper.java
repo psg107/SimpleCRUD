@@ -10,4 +10,12 @@ import java.util.HashMap;
 @Repository
 public interface ISimpleCRUDMapper {
     ArrayList<HashMap<String, Object>> getAllDrink();
+
+    HashMap<String, Object> getDrink(int drinkId);
+
+    boolean addDrink();
+
+    boolean updateDrink();
+
+    boolean deleteDrink();
 }

@@ -6,4 +6,20 @@
         select * from Drink
     </select>
 
+    <select id="getDrink">
+
+    </select>
+
+    <insert id="addDrink">
+
+    </insert>
+
+    <update id="updateDrink">
+
+    </update>
+
+    <delete id="deleteDrink">
+
+    </delete>
+
 </mapper>
