@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,28 +31,25 @@ public class DrinkService {
      * @return
      */
     public ArrayList<Drink> getAllDrink() {
-        //#warning 자동으로 매핑하는 방법이 없나?
+        var drinkEntities = this.drinkRepository.getAll();
+        var employeeEntities = this.employeeRepository.getAll();
 
-        var drinks = this.drinkRepository.getAll()
-                .stream()
-                .map(x -> new Drink(){{
-                    var id = x.getId();
-                    var name = x.getName();
-                    var price = x.getPrice();
-                    var employeeId = x.getRegEmployeeId();
+        var drinks =
+                drinkEntities.stream()
+                    .flatMap(d -> employeeEntities.stream()
+                                    .filter(e -> d.getRegEmployeeId() == e.getId())
+                                    .map(e -> Map.entry(d, e))
+                    ).map(x -> new Drink(){{
+                        var drink = x.getKey();
+                        var employee = x.getValue();
 
-                    var employee = employeeRepository.getById(employeeId);
-                    var employeeName = employee == null
-                                                ? ""
-                                                : employee.getName();
+                        setDrinkId(drink.getId());
+                        setName(drink.getName());
+                        setPrice(drink.getPrice());
+                        setRegEmployeeId(employee.getId());
+                        setRegEmployeeName(employee.getName());
+                    }}).collect(Collectors.toCollection(ArrayList<Drink>::new));
 
-                    setDrinkId(id);
-                    setName(name);
-                    setPrice(price);
-                    setRegEmployeeId(employeeId);
-                    setRegEmployeeName(employeeName);
-                }})
-                .collect(Collectors.toCollection(ArrayList<Drink>::new));
         return drinks;
     }
 
