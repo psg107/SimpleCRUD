@@ -16,6 +16,11 @@ public class UpdateDrink {
      */
     private int price;
 
+    /**
+     * 음료 등록한 직원ID
+     */
+    private int regEmployeeId;
+
     public int getDrinkId() { return drinkId; }
 
     public void setDrinkId(int drinkId) {
@@ -37,4 +42,8 @@ public class UpdateDrink {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    public int getRegEmployeeId() { return regEmployeeId; }
+
+    public void setRegEmployeeId(int regEmployeeId) { this.regEmployeeId = regEmployeeId; }
 }

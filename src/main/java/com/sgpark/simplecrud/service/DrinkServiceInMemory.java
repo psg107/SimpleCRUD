@@ -20,12 +20,10 @@ import java.util.stream.Collectors;
 public class DrinkServiceInMemory implements IDrinkService {
     @Autowired
     @Qualifier("TestInMemoryDrinkRepository")
-    //@Qualifier("MybatisDrinkRepository")
     private IRepositoryBase<DrinkEntity> drinkRepository;
 
     @Autowired
     @Qualifier("TestInMemoryEmployeeRepository")
-    //@Qualifier("MybatisEmployeeRepository")
     private IRepositoryBase<EmployeeEntity> employeeRepository;
 
     /**
@@ -77,8 +75,8 @@ public class DrinkServiceInMemory implements IDrinkService {
      * @return
      */
     @Override
-    public boolean addDrink(AddDrink drink, int employeeId) {
-        var drinkEntity = new DrinkEntity(drink.getName(), drink.getPrice(), employeeId);
+    public boolean addDrink(AddDrink drink) {
+        var drinkEntity = new DrinkEntity(drink.getName(), drink.getPrice(), drink.getRegEmployeeId());
         var inserted = this.drinkRepository.insert(drinkEntity);
 
         return inserted;
@@ -87,11 +85,10 @@ public class DrinkServiceInMemory implements IDrinkService {
     /**
      * 음료 정보 수정
      * @param drink
-     * @param employeeId
      * @return
      */
     @Override
-    public boolean updateDrink(UpdateDrink drink, int employeeId) {
+    public boolean updateDrink(UpdateDrink drink) {
         var drinkId = drink.getDrinkId();
         var savedDrinkEntity = this.drinkRepository.getById(drinkId);
 
@@ -99,7 +96,7 @@ public class DrinkServiceInMemory implements IDrinkService {
             return false;
         }
 
-        var newDrinkEntity = new DrinkEntity(drink.getDrinkId(), drink.getName(), drink.getPrice(), employeeId);
+        var newDrinkEntity = new DrinkEntity(drink.getDrinkId(), drink.getName(), drink.getPrice(), drink.getRegEmployeeId());
 
         var updated = this.drinkRepository.update(newDrinkEntity);
 

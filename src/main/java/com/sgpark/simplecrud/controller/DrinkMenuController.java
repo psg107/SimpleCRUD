@@ -3,7 +3,9 @@ package com.sgpark.simplecrud.controller;
 import com.sgpark.simplecrud.model.drink.AddDrink;
 import com.sgpark.simplecrud.model.drink.UpdateDrink;
 import com.sgpark.simplecrud.service.DrinkServiceInMemory;
+import com.sgpark.simplecrud.service.base.IDrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,7 +22,9 @@ public class DrinkMenuController {
     private final int CURRENT_LOGIN_EMPLOYEE_ID = 1;
 
     @Autowired
-    private DrinkServiceInMemory drinkService;
+//    @Qualifier("DrinkServiceInMemory")
+    @Qualifier("DrinkServiceMybatis")
+    private IDrinkService drinkService;
 
     /**
      * 조회 페이지로 이동
@@ -52,7 +56,9 @@ public class DrinkMenuController {
      */
     @RequestMapping(method = RequestMethod.POST, path = "/Insert")
     public RedirectView insert(AddDrink drink) throws Exception {
-        var added = this.drinkService.addDrink(drink, CURRENT_LOGIN_EMPLOYEE_ID);
+        drink.setRegEmployeeId(CURRENT_LOGIN_EMPLOYEE_ID);
+
+        var added = this.drinkService.addDrink(drink);
         if (added == false) {
             throw new Exception("등록 오류");
         }
@@ -68,12 +74,12 @@ public class DrinkMenuController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/Detail/{id}")
     public String detail(@PathVariable int id, Model model) {
-        var drinkInfo = this.drinkService.getDrink(id);
-        if (drinkInfo == null) {
+        var drink = this.drinkService.getDrink(id);
+        if (drink == null) {
             return "index";
         }
 
-        model.addAttribute("drink", drinkInfo);
+        model.addAttribute("drink", drink);
 
         return "detail";
     }
@@ -84,7 +90,9 @@ public class DrinkMenuController {
      */
     @RequestMapping(method = RequestMethod.POST, path = "/Update")
     public RedirectView update(UpdateDrink drink) throws Exception {
-        var updated = this.drinkService.updateDrink(drink, CURRENT_LOGIN_EMPLOYEE_ID);
+        drink.setRegEmployeeId(CURRENT_LOGIN_EMPLOYEE_ID);;
+
+        var updated = this.drinkService.updateDrink(drink);
         if (updated == false) {
             throw new Exception("수정 오류");
         }

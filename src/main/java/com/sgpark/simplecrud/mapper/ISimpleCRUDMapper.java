@@ -1,5 +1,9 @@
 package com.sgpark.simplecrud.mapper;
 
+import com.sgpark.simplecrud.entity.DrinkEntity;
+import com.sgpark.simplecrud.model.drink.AddDrink;
+import com.sgpark.simplecrud.model.drink.Drink;
+import com.sgpark.simplecrud.model.drink.UpdateDrink;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -9,13 +13,13 @@ import java.util.HashMap;
 @Mapper
 @Repository
 public interface ISimpleCRUDMapper {
-    ArrayList<HashMap<String, Object>> getAllDrink();
+    ArrayList<Drink> getAllDrink();
 
-    HashMap<String, Object> getDrink(int drinkId);
+    Drink getDrink(int drinkId);
 
-    boolean addDrink();
+    boolean addDrink(AddDrink drink);
 
-    boolean updateDrink();
+    boolean updateDrink(UpdateDrink drink);
 
-    boolean deleteDrink();
+    boolean deleteDrink(int drinkId);
 }

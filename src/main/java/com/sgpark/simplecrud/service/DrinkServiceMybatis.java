@@ -24,49 +24,28 @@ public class DrinkServiceMybatis implements IDrinkService {
 
     @Override
     public ArrayList<Drink> getAllDrink() {
-        var drinks = this.drinkInfoRepository.getAllDrinkInfo().stream().map(x -> new Drink(){{
-            var drinkId = x.getDrinkId();
-            var name = x.getName();
-            var price = x.getPrice();
-            var regEmployeeId = x.getRegEmployeeId();
-
-            setDrinkId((drinkId));
-            setName(name);
-            setPrice(price);
-            setRegEmployeeId(regEmployeeId);
-        }}).collect(Collectors.toCollection(ArrayList<Drink>::new));
+        var drinks = this.drinkInfoRepository.getAllDrinkInfo();
 
         return drinks;
     }
 
     @Override
     public Drink getDrink(int drinkId) {
-        var drinkInfoEntity = this.drinkInfoRepository.getDrink((drinkId));
-        var drink = new Drink(){{
-            var drinkId = drinkInfoEntity.getDrinkId();
-            var name = drinkInfoEntity.getName();
-            var price = drinkInfoEntity.getPrice();
-            var regEmployeeId = drinkInfoEntity.getRegEmployeeId();
-
-            setDrinkId((drinkId));
-            setName(name);
-            setPrice(price);
-            setRegEmployeeId(regEmployeeId);
-        }};
+        var drink = this.drinkInfoRepository.getDrink(drinkId);
 
         return drink;
     }
 
     @Override
-    public boolean addDrink(AddDrink drink, int employeeId) {
-        var added = this.drinkInfoRepository.addDrinkInfo(drink, employeeId);
+    public boolean addDrink(AddDrink drink) {
+        var added = this.drinkInfoRepository.addDrinkInfo(drink);
 
         return added;
     }
 
     @Override
-    public boolean updateDrink(UpdateDrink drink, int employeeId) {
-        var updated = this.drinkInfoRepository.updateDrink(drink, employeeId);
+    public boolean updateDrink(UpdateDrink drink) {
+        var updated = this.drinkInfoRepository.updateDrink(drink);
 
         return updated;
     }

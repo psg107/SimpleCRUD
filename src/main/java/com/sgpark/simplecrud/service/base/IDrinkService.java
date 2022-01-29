@@ -24,7 +24,7 @@ public interface IDrinkService {
      * @param drink
      * @return
      */
-    public boolean addDrink(AddDrink drink, int employeeId);
+    public boolean addDrink(AddDrink drink);
 
     /**
      * 음료 정보 수정
@@ -32,7 +32,7 @@ public interface IDrinkService {
      * @param employeeId
      * @return
      */
-    public boolean updateDrink(UpdateDrink drink, int employeeId);
+    public boolean updateDrink(UpdateDrink drink);
 
     /**
      * 음료 정보 삭제

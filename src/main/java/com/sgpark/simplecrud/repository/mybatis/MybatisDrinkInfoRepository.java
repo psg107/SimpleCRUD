@@ -3,6 +3,7 @@ package com.sgpark.simplecrud.repository.mybatis;
 import com.sgpark.simplecrud.entity.base.DrinkInfoEntity;
 import com.sgpark.simplecrud.mapper.ISimpleCRUDMapper;
 import com.sgpark.simplecrud.model.drink.AddDrink;
+import com.sgpark.simplecrud.model.drink.Drink;
 import com.sgpark.simplecrud.model.drink.UpdateDrink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,33 +17,33 @@ public class MybatisDrinkInfoRepository {
     @Autowired
     ISimpleCRUDMapper mapper;
 
-    public ArrayList<DrinkInfoEntity> getAllDrinkInfo() {
-        var drinks1234 = mapper.getAllDrink();
+    public ArrayList<Drink> getAllDrinkInfo() {
+        var drinks = mapper.getAllDrink();
 
-        return null;
+        return drinks;
     }
 
-    public DrinkInfoEntity getDrink(int drinkId) {
-        var drink1234 = mapper.getDrink(drinkId);
+    public Drink getDrink(int drinkId) {
+        var drink = mapper.getDrink(drinkId);
 
-        return null;
+        return drink;
     }
 
-    public boolean addDrinkInfo(AddDrink addDrinkInfo, int employeeId) {
-        var aaa = mapper.addDrink();
+    public boolean addDrinkInfo(AddDrink drink) {
+        var added = mapper.addDrink(drink);
 
-        return false;
+        return added;
     }
 
-    public boolean updateDrink(UpdateDrink drink, int employeeId) {
-        var aaa = mapper.updateDrink();
+    public boolean updateDrink(UpdateDrink drink) {
+        var updated = mapper.updateDrink(drink);
 
-        return false;
+        return updated;
     }
 
     public boolean deleteDrink(int drinkId) {
-        var aaa = mapper.deleteDrink();
+        var deleted = mapper.deleteDrink(drinkId);
 
-        return false;
+        return deleted;
     }
 }

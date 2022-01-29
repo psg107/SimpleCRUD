@@ -2,24 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sgpark.simplecrud.mapper.ISimpleCRUDMapper">
 
-    <select id="getAllDrink" resultType="HashMap">
-        select * from Drink
+    <select id="getAllDrink" resultType="com.sgpark.simplecrud.model.drink.Drink">
+        SELECT
+          D.DrinkId,
+          D.Name,
+          D.Price,
+          E.EmployeeID
+        FROM
+          Drink AS D
+            LEFT JOIN Employee AS E
+              ON D.RegEmployeeId = E.EmployeeID
     </select>
 
-    <select id="getDrink">
-
+    <select id="getDrink" parameterType="String" resultType="com.sgpark.simplecrud.model.drink.Drink">
+        SELECT
+          D.DrinkId,
+          D.Name,
+          D.Price,
+          E.EmployeeID
+        FROM Drink AS D
+          LEFT JOIN Employee AS E
+            ON D.RegEmployeeId = E.EmployeeID
+        WHERE D.DrinkId = ${drinkId}
     </select>
 
-    <insert id="addDrink">
-
+    <insert id="addDrink" parameterType="com.sgpark.simplecrud.model.drink.AddDrink">
+        INSERT INTO Drink (Name, Price)
+        VALUES (#{name}, #{price})
     </insert>
 
-    <update id="updateDrink">
-
+    <update id="updateDrink" parameterType="com.sgpark.simplecrud.model.drink.UpdateDrink">
+        UPDATE Drink
+        SET Name = #{name},
+            Price = #{price},
+            RegEmployeeId = #{regEmployeeId}
+        WHERE DrinkId = ${drinkId}
     </update>
 
-    <delete id="deleteDrink">
-
+    <delete id="deleteDrink" parameterType="String">
+        DELETE FROM Drink
+        WHERE DrinkId = ${drinkId}
     </delete>
 
 </mapper>
