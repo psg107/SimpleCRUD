@@ -18,13 +18,17 @@ import java.util.stream.Collectors;
 @Component
 @Qualifier("DrinkServiceInMemory")
 public class DrinkServiceInMemory implements IDrinkService {
-    @Autowired
-    @Qualifier("TestInMemoryDrinkRepository")
-    private IRepositoryBase<DrinkEntity> drinkRepository;
+
+    private final IRepositoryBase<DrinkEntity> drinkRepository;
+    private final IRepositoryBase<EmployeeEntity> employeeRepository;
 
     @Autowired
-    @Qualifier("TestInMemoryEmployeeRepository")
-    private IRepositoryBase<EmployeeEntity> employeeRepository;
+    public DrinkServiceInMemory(
+            @Qualifier("TestInMemoryDrinkRepository")IRepositoryBase<DrinkEntity> drinkRepository,
+            @Qualifier("TestInMemoryEmployeeRepository")IRepositoryBase<EmployeeEntity> employeeRepository) {
+        this.drinkRepository = drinkRepository;
+        this.employeeRepository = employeeRepository;
+    }
 
     /**
      * 모든 음료 정보 가져오기

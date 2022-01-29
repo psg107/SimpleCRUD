@@ -18,9 +18,13 @@ import java.util.stream.Collectors;
 @Component
 @Qualifier("DrinkServiceMybatis")
 public class DrinkServiceMybatis implements IDrinkService {
+
+    private final MybatisDrinkInfoRepository drinkInfoRepository;
+
     @Autowired
-    @Qualifier("MybatisDrinkInfoRepository")
-    private MybatisDrinkInfoRepository drinkInfoRepository;
+    public DrinkServiceMybatis(@Qualifier("MybatisDrinkInfoRepository")MybatisDrinkInfoRepository drinkInfoRepository) {
+        this.drinkInfoRepository = drinkInfoRepository;
+    }
 
     @Override
     public ArrayList<Drink> getAllDrink() {

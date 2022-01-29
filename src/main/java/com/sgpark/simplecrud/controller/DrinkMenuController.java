@@ -21,10 +21,18 @@ public class DrinkMenuController {
      */
     private final int CURRENT_LOGIN_EMPLOYEE_ID = 1;
 
+    private final IDrinkService drinkService;
+
     @Autowired
-//    @Qualifier("DrinkServiceInMemory")
-    @Qualifier("DrinkServiceMybatis")
-    private IDrinkService drinkService;
+    public DrinkMenuController(@Qualifier("DrinkServiceMybatis")IDrinkService drinkService) {
+        this.drinkService = drinkService;
+    }
+
+//    @Autowired
+//    public DrinkMenuController(
+//            @Qualifier("DrinkServiceInMemory")IDrinkService drinkService) {
+//        this.drinkService = drinkService;
+//    }
 
     /**
      * 조회 페이지로 이동

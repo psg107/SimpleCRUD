@@ -14,8 +14,13 @@ import java.util.ArrayList;
 @Component
 @Qualifier("MybatisDrinkInfoRepository")
 public class MybatisDrinkInfoRepository {
+
+    private final ISimpleCRUDMapper mapper;
+
     @Autowired
-    ISimpleCRUDMapper mapper;
+    public MybatisDrinkInfoRepository(ISimpleCRUDMapper mapper) {
+        this.mapper = mapper;
+    }
 
     public ArrayList<Drink> getAllDrinkInfo() {
         var drinks = mapper.getAllDrink();
