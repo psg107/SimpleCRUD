@@ -6,6 +6,7 @@ import com.sgpark.simplecrud.repository.inMemory.InMemoryDrinkRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 /**
  * InMemory 테스트를 위한 베이스 클래스
@@ -18,6 +19,10 @@ public abstract class InMemoryRepositoryBase<T extends BaseEntity> implements IR
         this.inMemoryTestList = this.getInMemoryTestList();
     }
 
+    /**
+     * InMemory 테스트를 위한 더미 데이터 입력
+     * @return
+     */
     public abstract ArrayList<T> getInMemoryTestList();
 
     @Override
@@ -39,7 +44,17 @@ public abstract class InMemoryRepositoryBase<T extends BaseEntity> implements IR
 
     @Override
     public ArrayList<T> getAll() {
-        var output = new ArrayList<T>(this.inMemoryTestList);
+        var output = ((ArrayList<T>)(this.inMemoryTestList.clone()));
+
+        return output;
+    }
+
+    @Override
+    public ArrayList<T> getWithPaging(int pageNumber, int pageSize) {
+        var output = this.inMemoryTestList.stream()
+                                  .skip(pageNumber * pageSize)
+                                  .limit(pageSize)
+                                  .collect(Collectors.toCollection(ArrayList<T>::new));
 
         return output;
     }

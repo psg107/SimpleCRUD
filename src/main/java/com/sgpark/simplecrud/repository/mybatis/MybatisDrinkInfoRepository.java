@@ -1,6 +1,5 @@
 package com.sgpark.simplecrud.repository.mybatis;
 
-import com.sgpark.simplecrud.entity.base.DrinkInfoEntity;
 import com.sgpark.simplecrud.mapper.ISimpleCRUDMapper;
 import com.sgpark.simplecrud.model.drink.AddDrink;
 import com.sgpark.simplecrud.model.drink.Drink;
@@ -22,8 +21,20 @@ public class MybatisDrinkInfoRepository {
         this.mapper = mapper;
     }
 
-    public ArrayList<Drink> getAllDrinkInfo() {
-        var drinks = mapper.getAllDrink();
+    public int getDrinkCount() {
+        var count = mapper.getDrinkCount();
+
+        return count;
+    }
+
+    public ArrayList<Drink> getAllDrinks() {
+        var drinks = mapper.getAllDrinks();
+
+        return drinks;
+    }
+
+    public ArrayList<Drink> getDrinksWithPaging(int pageNumber, int pageSize) {
+        var drinks = mapper.getDrinksWithPaging((pageNumber - 1) * pageSize, pageSize);
 
         return drinks;
     }

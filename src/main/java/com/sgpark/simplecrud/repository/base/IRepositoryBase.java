@@ -19,6 +19,12 @@ public interface IRepositoryBase<T extends BaseEntity> {
     ArrayList<T> getAll();
 
     /**
+     * Read Paging
+     * @return
+     */
+    ArrayList<T> getWithPaging(int pageNumber, int pageSize);
+
+    /**
      * Read One
      * @param id
      * @return

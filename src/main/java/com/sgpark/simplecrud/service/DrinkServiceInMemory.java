@@ -2,9 +2,11 @@ package com.sgpark.simplecrud.service;
 
 import com.sgpark.simplecrud.entity.DrinkEntity;
 import com.sgpark.simplecrud.entity.EmployeeEntity;
+import com.sgpark.simplecrud.model.common.PagingList;
 import com.sgpark.simplecrud.model.drink.Drink;
 import com.sgpark.simplecrud.model.drink.AddDrink;
 import com.sgpark.simplecrud.model.drink.UpdateDrink;
+import com.sgpark.simplecrud.modelBuilder.DrinkListBuilder;
 import com.sgpark.simplecrud.repository.base.IRepositoryBase;
 import com.sgpark.simplecrud.service.base.IDrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 @Qualifier("DrinkServiceInMemory")
@@ -35,27 +35,37 @@ public class DrinkServiceInMemory implements IDrinkService {
      * @return
      */
     @Override
-    public ArrayList<Drink> getAllDrink() {
+    public ArrayList<Drink> getAllDrinks() {
         var drinkEntities = this.drinkRepository.getAll();
         var employeeEntities = this.employeeRepository.getAll();
 
-        var drinks =
-                drinkEntities.stream()
-                    .flatMap(d -> employeeEntities.stream()
-                                    .filter(e -> d.getRegEmployeeId() == e.getId())
-                                    .map(e -> Map.entry(d, e))
-                    ).map(x -> new Drink(){{
-                        var drink = x.getKey();
-                        var employee = x.getValue();
-
-                        setDrinkId(drink.getId());
-                        setName(drink.getName());
-                        setPrice(drink.getPrice());
-                        setRegEmployeeId(employee.getId());
-                        setRegEmployeeName(employee.getName());
-                    }}).collect(Collectors.toCollection(ArrayList<Drink>::new));
+        var drinks = new DrinkListBuilder()
+                .setDrinkEntities(drinkEntities)
+                .setEmployeeEntities(employeeEntities)
+                .buildDrinkList();
 
         return drinks;
+    }
+
+    /**
+     * 음료 정보 가져오기 (페이징)
+     * @return
+     */
+    @Override
+    public PagingList<Drink> getDrinksWithPaging(int pageNumber, int pageSize) {
+        var drinkEntities = this.drinkRepository.getWithPaging(pageNumber, pageSize);
+        var employeeEntities = this.employeeRepository.getAll();
+
+        var drinks = new DrinkListBuilder()
+                .setDrinkEntities(drinkEntities)
+                .setEmployeeEntities(employeeEntities)
+                .setPageNumber(pageNumber)
+                .setPageSize(pageSize)
+                .buildDrinkList();
+
+        var pagingDrinks = new PagingList<Drink>(pageNumber, drinkEntities.size(), drinks);
+
+        return pagingDrinks;
     }
 
     /**
@@ -65,7 +75,7 @@ public class DrinkServiceInMemory implements IDrinkService {
      */
     @Override
     public Drink getDrink(int drinkId) {
-        var drinkInfo = this.getAllDrink().stream()
+        var drinkInfo = this.getAllDrinks().stream()
                 .filter(x -> x.getDrinkId() == drinkId)
                 .findFirst()
                 .orElse(null);

@@ -1,8 +1,9 @@
 package com.sgpark.simplecrud.controller;
 
+import com.sgpark.simplecrud.model.common.PagingList;
 import com.sgpark.simplecrud.model.drink.AddDrink;
+import com.sgpark.simplecrud.model.drink.Drink;
 import com.sgpark.simplecrud.model.drink.UpdateDrink;
-import com.sgpark.simplecrud.service.DrinkServiceInMemory;
 import com.sgpark.simplecrud.service.base.IDrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Optional;
+
 @Controller
 public class DrinkMenuController {
 
@@ -20,6 +23,11 @@ public class DrinkMenuController {
      * #warning 현재 로그인한 사원번호 임시 처리..
      */
     private final int CURRENT_LOGIN_EMPLOYEE_ID = 1;
+
+    /**
+     * #warning 페이지 사이즈 임시 처리..
+     */
+    private final int PAGE_SIZE = 5;
 
     private final IDrinkService drinkService;
 
@@ -39,13 +47,36 @@ public class DrinkMenuController {
      * @param model
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, path = "/")
-    public String index(Model model){
-        var drinks = this.drinkService.getAllDrink();
+    @RequestMapping(method = RequestMethod.GET, path = {"/", "/{page}"})
+    public String index(@PathVariable(required = false) Optional<Integer> page, Model model){
+        try{
+            var pageNumber = 1;
 
-        model.addAttribute("drinks", drinks);
+            if (page.isPresent()){
+                pageNumber = page.get();
+            }
 
-        return "index";
+            PagingList<Drink> pagingDrinks = this.drinkService.getDrinksWithPaging(pageNumber, PAGE_SIZE);
+            var currentPageNumber = pagingDrinks.getCurrentPageNumber();
+            var maxPageNumber = pagingDrinks.getMaxPageNumber();
+            var startPageNumber = pagingDrinks.getStartPageNumber();
+            var endPageNumber = pagingDrinks.getEndPageNumber();
+            var showPreviousButton = pagingDrinks.isShowPreviousButton();
+            var showNextButton = pagingDrinks.isShowNextButton();
+            var drinks = pagingDrinks.getItems();
+
+            model.addAttribute("currentPageNumber", currentPageNumber);
+            model.addAttribute("maxPageNumber", maxPageNumber);
+            model.addAttribute("startPageNumber", startPageNumber);
+            model.addAttribute("endPageNumber", endPageNumber);
+            model.addAttribute("showPreviousButton", showPreviousButton);
+            model.addAttribute("showNextButton", showNextButton);
+            model.addAttribute("drinks", drinks);
+
+            return "index";
+        }catch (Exception ex){
+            return "redirect:/";
+        }
     }
 
     /**

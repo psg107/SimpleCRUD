@@ -1,11 +1,9 @@
 package com.sgpark.simplecrud.service;
 
-import com.sgpark.simplecrud.entity.DrinkEntity;
-import com.sgpark.simplecrud.entity.EmployeeEntity;
+import com.sgpark.simplecrud.model.common.PagingList;
 import com.sgpark.simplecrud.model.drink.AddDrink;
 import com.sgpark.simplecrud.model.drink.Drink;
 import com.sgpark.simplecrud.model.drink.UpdateDrink;
-import com.sgpark.simplecrud.repository.base.IRepositoryBase;
 import com.sgpark.simplecrud.repository.mybatis.MybatisDrinkInfoRepository;
 import com.sgpark.simplecrud.service.base.IDrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Component
 @Qualifier("DrinkServiceMybatis")
@@ -27,10 +24,20 @@ public class DrinkServiceMybatis implements IDrinkService {
     }
 
     @Override
-    public ArrayList<Drink> getAllDrink() {
-        var drinks = this.drinkInfoRepository.getAllDrinkInfo();
+    public ArrayList<Drink> getAllDrinks() {
+        var drinks = this.drinkInfoRepository.getAllDrinks();
 
         return drinks;
+    }
+
+    @Override
+    public PagingList<Drink> getDrinksWithPaging(int pageNumber, int pageSize) {
+        var itemCount = this.drinkInfoRepository.getDrinkCount();
+        var drinks = this.drinkInfoRepository.getDrinksWithPaging(pageNumber, pageSize);
+
+        var pagingDrinks = new PagingList<Drink>(pageNumber, itemCount, drinks);
+
+        return pagingDrinks;
     }
 
     @Override

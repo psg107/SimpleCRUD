@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration
-// 패키지명
 @MapperScan(value = "com.sgpark.simplecrud", sqlSessionFactoryRef = "SqlSessionFactory")
 public class MyBatisConfig {
 
@@ -27,7 +26,6 @@ public class MyBatisConfig {
     public DataSource DataSource() {
         return DataSourceBuilder.create().build();
     }
-
 
     @Bean(name = "SqlSessionFactory")
     public SqlSessionFactory SqlSessionFactory(@Qualifier("dataSource") DataSource DataSource, ApplicationContext applicationContext) throws Exception {
@@ -41,5 +39,4 @@ public class MyBatisConfig {
     public SqlSessionTemplate SqlSessionTemplate(@Qualifier("SqlSessionFactory") SqlSessionFactory firstSqlSessionFactory) {
         return new SqlSessionTemplate(firstSqlSessionFactory);
     }
-
 }

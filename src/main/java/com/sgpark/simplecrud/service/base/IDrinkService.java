@@ -1,5 +1,6 @@
 package com.sgpark.simplecrud.service.base;
 
+import com.sgpark.simplecrud.model.common.PagingList;
 import com.sgpark.simplecrud.model.drink.AddDrink;
 import com.sgpark.simplecrud.model.drink.Drink;
 import com.sgpark.simplecrud.model.drink.UpdateDrink;
@@ -11,7 +12,14 @@ public interface IDrinkService {
      * 모든 음료 정보 가져오기
      * @return
      */
-    ArrayList<Drink> getAllDrink();
+    ArrayList<Drink> getAllDrinks();
+
+    /**
+     * 음료 정보 가져오기 (페이징)
+     * @return
+     */
+    PagingList<Drink> getDrinksWithPaging(int pageNumber, int pageSize);
+
     /**
      * 특정 음료 정보 가져오기
      * @param drinkId
@@ -29,7 +37,6 @@ public interface IDrinkService {
     /**
      * 음료 정보 수정
      * @param drink
-     * @param employeeId
      * @return
      */
     public boolean updateDrink(UpdateDrink drink);

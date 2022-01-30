@@ -90,6 +90,29 @@
         </div>
     </div>
 
+    <!--paging-->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <!--previous-->
+            <li class="page-item">
+                <a class="page-link" th:href="${startPageNumber - 1}" th:classappend="${showPreviousButton ? '' : 'disabled'}">Previous</a>
+            </li>
+
+            <!--numbers-->
+            <div th:each="i : ${#numbers.sequence(startPageNumber, endPageNumber)}" th:remove="tag">
+                <li class="page-item" th:classappend="${currentPageNumber == i ? 'disabled' : ''}">
+                    <a class="page-link" th:href="${i}" th:text="${i}"></a>
+                </li>
+            </div>
+
+            <!--next-->
+            <li class="page-item">
+                <a class="page-link" th:href="${endPageNumber + 1}" th:classappend="${showNextButton ? '' : 'disabled'}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!--하단 버튼-->
     <div class="row mt-2">
         <div class="col">
             <a class="btn btn-primary" href="/Insert">메뉴 등록하기</a>
