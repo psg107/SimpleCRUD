@@ -94,8 +94,8 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <!--previous-->
-            <li class="page-item">
-                <a class="page-link" th:href="${startPageNumber - 1}" th:classappend="${showPreviousButton ? '' : 'disabled'}">Previous</a>
+            <li class="page-item" th:classappend="${showPreviousButton ? '' : 'disabled'}">
+                <a class="page-link" th:href="${startPageNumber - 1}">Previous</a>
             </li>
 
             <!--numbers-->
@@ -106,8 +106,8 @@
             </div>
 
             <!--next-->
-            <li class="page-item">
-                <a class="page-link" th:href="${endPageNumber + 1}" th:classappend="${showNextButton ? '' : 'disabled'}">Next</a>
+            <li class="page-item" th:classappend="${showNextButton ? '' : 'disabled'}">
+                <a class="page-link" th:href="${endPageNumber + 1}">Next</a>
             </li>
         </ul>
     </nav>
