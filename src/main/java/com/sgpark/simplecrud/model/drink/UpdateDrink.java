@@ -1,49 +1,34 @@
 package com.sgpark.simplecrud.model.drink;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class UpdateDrink {
     /**
      * id
      */
+    @Getter
+    @Setter
     private int drinkId;
 
     /**
      * 메뉴명
      */
+    @Getter
+    @Setter
     private String name;
 
     /**
      * 가격
      */
+    @Getter
+    @Setter
     private int price;
 
     /**
      * 음료 등록한 직원ID
      */
+    @Getter
+    @Setter
     private int regEmployeeId;
-
-    public int getDrinkId() { return drinkId; }
-
-    public void setDrinkId(int drinkId) {
-        this.drinkId = drinkId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getRegEmployeeId() { return regEmployeeId; }
-
-    public void setRegEmployeeId(int regEmployeeId) { this.regEmployeeId = regEmployeeId; }
 }

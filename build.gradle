@@ -25,6 +25,10 @@ dependencies {
     //mybatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+
+    //lombok
+    annotationProcessor('org.projectlombok:lombok')
+    implementation 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

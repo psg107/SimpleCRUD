@@ -1,14 +1,12 @@
-package com.sgpark.simplecrud.model.drink;
+package com.sgpark.simplecrud.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * 음료 정보
- * @see com.sgpark.simplecrud.entity.DrinkEntity
- * @see com.sgpark.simplecrud.entity.EmployeeEntity
  */
-public class Drink {
+public class DrinkInfoEntity {
     /**
      * id
      */
