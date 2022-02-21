@@ -1,14 +1,9 @@
-package com.sgpark.simplecrud.model.drink;
+package com.sgpark.simplecrud.model.drink.common;
 
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 음료 정보
- * @see com.sgpark.simplecrud.entity.DrinkEntity
- * @see com.sgpark.simplecrud.entity.EmployeeEntity
- */
-public class Drink {
+public class UpdateDrink {
     /**
      * id
      */
@@ -36,11 +31,4 @@ public class Drink {
     @Getter
     @Setter
     private int regEmployeeId;
-
-    /**
-     * 음료 등록한 직원명
-     */
-    @Getter
-    @Setter
-    private String regEmployeeName;
 }

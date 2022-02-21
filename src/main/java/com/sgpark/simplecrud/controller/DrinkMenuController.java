@@ -1,12 +1,11 @@
 package com.sgpark.simplecrud.controller;
 
-import com.sgpark.simplecrud.model.common.PagingList;
-import com.sgpark.simplecrud.model.drink.AddDrink;
-import com.sgpark.simplecrud.model.drink.Drink;
-import com.sgpark.simplecrud.model.drink.UpdateDrink;
+import com.sgpark.simplecrud.model.common.Pagination;
+import com.sgpark.simplecrud.model.drink.common.AddDrink;
+import com.sgpark.simplecrud.model.drink.common.Drink;
+import com.sgpark.simplecrud.model.drink.common.UpdateDrink;
 import com.sgpark.simplecrud.service.base.IDrinkService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,23 +23,12 @@ public class DrinkMenuController {
      */
     private final int CURRENT_LOGIN_EMPLOYEE_ID = 1;
 
-    /**
-     * #warning 페이지 사이즈 임시 처리..
-     */
-    private final int PAGE_SIZE = 5;
-
     private final IDrinkService drinkService;
 
     @Autowired
-    public DrinkMenuController(@Qualifier("DrinkServiceMybatis")IDrinkService drinkService) {
+    public DrinkMenuController(IDrinkService drinkService) {
         this.drinkService = drinkService;
     }
-
-//    @Autowired
-//    public DrinkMenuController(
-//            @Qualifier("DrinkServiceInMemory")IDrinkService drinkService) {
-//        this.drinkService = drinkService;
-//    }
 
     /**
      * 조회 페이지로 이동
@@ -56,7 +44,7 @@ public class DrinkMenuController {
                 pageNumber = page.get();
             }
 
-            PagingList<Drink> pagingDrinks = this.drinkService.getDrinksWithPaging(pageNumber, PAGE_SIZE);
+            Pagination<Drink> pagingDrinks = this.drinkService.getDrinks(pageNumber);
             var currentPageNumber = pagingDrinks.getCurrentPageNumber();
             var maxPageNumber = pagingDrinks.getMaxPageNumber();
             var startPageNumber = pagingDrinks.getStartPageNumber();

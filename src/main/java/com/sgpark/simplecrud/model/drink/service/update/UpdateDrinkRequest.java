@@ -1,12 +1,10 @@
-package com.sgpark.simplecrud.entity;
+package com.sgpark.simplecrud.model.drink.service.update;
 
+import com.sgpark.simplecrud.model.common.service.IRequestBase;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 음료 정보
- */
-public class DrinkInfoEntity {
+public class UpdateDrinkRequest implements IRequestBase {
     /**
      * id
      */
@@ -29,16 +27,9 @@ public class DrinkInfoEntity {
     private int price;
 
     /**
-     * 음료 등록한 직원ID
+     * 음료 등록한 사용자 ID
      */
     @Getter
     @Setter
-    private int regEmployeeId;
-
-    /**
-     * 음료 등록한 직원명
-     */
-    @Getter
-    @Setter
-    private String regEmployeeName;
+    private int regMemberId;
 }

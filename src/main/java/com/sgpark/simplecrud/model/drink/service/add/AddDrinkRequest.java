@@ -1,9 +1,10 @@
-package com.sgpark.simplecrud.model.drink;
+package com.sgpark.simplecrud.model.drink.service.add;
 
+import com.sgpark.simplecrud.model.common.service.IRequestBase;
 import lombok.Getter;
 import lombok.Setter;
 
-public class AddDrink {
+public class AddDrinkRequest implements IRequestBase {
     /**
      * 메뉴명
      */
@@ -17,11 +18,4 @@ public class AddDrink {
     @Getter
     @Setter
     private int price;
-
-    /**
-     * 음료 등록한 직원ID
-     */
-    @Getter
-    @Setter
-    private int regEmployeeId;
 }

@@ -1,24 +1,17 @@
 package com.sgpark.simplecrud.service.base;
 
-import com.sgpark.simplecrud.model.common.PagingList;
-import com.sgpark.simplecrud.model.drink.AddDrink;
-import com.sgpark.simplecrud.model.drink.Drink;
-import com.sgpark.simplecrud.model.drink.UpdateDrink;
-
-import java.util.ArrayList;
+import com.sgpark.simplecrud.model.common.Pagination;
+import com.sgpark.simplecrud.model.drink.common.AddDrink;
+import com.sgpark.simplecrud.model.drink.common.Drink;
+import com.sgpark.simplecrud.model.drink.common.UpdateDrink;
 
 public interface IDrinkService {
-    /**
-     * 모든 음료 정보 가져오기
-     * @return
-     */
-    ArrayList<Drink> getAllDrinks();
 
     /**
-     * 음료 정보 가져오기 (페이징)
+     * 음료 정보 가져오기
      * @return
      */
-    PagingList<Drink> getDrinksWithPaging(int pageNumber, int pageSize);
+    Pagination<Drink> getDrinks(int pageNumber);
 
     /**
      * 특정 음료 정보 가져오기

@@ -1,16 +1,9 @@
-package com.sgpark.simplecrud.model.drink;
+package com.sgpark.simplecrud.model.drink.common;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class UpdateDrink {
-    /**
-     * id
-     */
-    @Getter
-    @Setter
-    private int drinkId;
-
+public class AddDrink {
     /**
      * 메뉴명
      */
