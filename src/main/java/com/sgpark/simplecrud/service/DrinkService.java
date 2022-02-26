@@ -16,6 +16,7 @@ import com.sgpark.simplecrud.model.drink.service.update.UpdateDrinkRequest;
 import com.sgpark.simplecrud.model.drink.service.update.UpdateDrinkResponse;
 import com.sgpark.simplecrud.service.base.IDrinkService;
 import com.sgpark.simplecrud.util.RestServiceClient;
+import com.sgpark.simplecrud.util.ServiceUrlBuilder;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Qualifier("DrinkServiceMybatis")
+@SuppressWarnings("현재 url 하드코딩 되어있음. 리소스로 빼고싶은데 어떻게 하면 파라미터까지 깔끔하게 처리될까??")
 public class DrinkService implements IDrinkService {
 
     private final EurekaClient eurekaClient;
@@ -41,9 +43,11 @@ public class DrinkService implements IDrinkService {
 
         //url
         var serviceHost = instanceInfo.getHomePageUrl();
-        var endpoint = "api/drink";
-        var query = "?page=" + pageNumber;
-        var url = serviceHost + endpoint + query;
+        var url = new ServiceUrlBuilder()
+                    .setServiceHost(serviceHost)
+                    .setEndpoint("api/drink")
+                    .addQuery("page", pageNumber)
+                    .build();
 
         //request
         var serviceResponse = new RestServiceClient<GetDrinkRequest>()
@@ -64,9 +68,11 @@ public class DrinkService implements IDrinkService {
 
         //url
         var serviceHost = instanceInfo.getHomePageUrl();
-        var endpoint = "api/drink/info";
-        var query = "?drinkId=" + drinkId;
-        var url = serviceHost + endpoint + query;
+        var url = new ServiceUrlBuilder()
+                    .setServiceHost(serviceHost)
+                    .setEndpoint("api/drink/info")
+                    .addQuery("drinkId", drinkId)
+                    .build();
 
         //request
         var serviceResponse = new RestServiceClient<NoDataRequest>()
@@ -87,8 +93,10 @@ public class DrinkService implements IDrinkService {
 
         //url
         var serviceHost = instanceInfo.getHomePageUrl();
-        var endpoint = "api/drink/add";
-        var url = serviceHost + endpoint;
+        var url = new ServiceUrlBuilder()
+                    .setServiceHost(serviceHost)
+                    .setEndpoint("api/drink/add")
+                    .build();
 
         //data
         var requestData = new DozerBeanMapper().map(addDrink, AddDrinkRequest.class);
@@ -114,8 +122,10 @@ public class DrinkService implements IDrinkService {
 
         //url
         var serviceHost = instanceInfo.getHomePageUrl();
-        var endpoint = "api/drink/update";
-        var url = serviceHost + endpoint;
+        var url = new ServiceUrlBuilder()
+                    .setServiceHost(serviceHost)
+                    .setEndpoint("api/drink/update")
+                    .build();
 
         //data
         var requestData = new DozerBeanMapper().map(updateDrink, UpdateDrinkRequest.class);
@@ -141,9 +151,11 @@ public class DrinkService implements IDrinkService {
 
         //url
         var serviceHost = instanceInfo.getHomePageUrl();
-        var endpoint = "api/drink/delete/";
-        var query = "?drinkId=" + drinkId;
-        var url = serviceHost + endpoint + query;
+        var url = new ServiceUrlBuilder()
+                    .setServiceHost(serviceHost)
+                    .setEndpoint("api/drink/delete")
+                    .addQuery("drinkId", drinkId)
+                    .build();
 
         //request
         var serviceResponse = new RestServiceClient<NoDataRequest>()
