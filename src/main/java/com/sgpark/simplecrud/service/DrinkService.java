@@ -41,8 +41,9 @@ public class DrinkService implements IDrinkService {
 
         //url
         var serviceHost = instanceInfo.getHomePageUrl();
-        var endpoint = "api/drink?page=" + pageNumber;
-        var url = serviceHost + endpoint;
+        var endpoint = "api/drink";
+        var query = "?page=" + pageNumber;
+        var url = serviceHost + endpoint + query;
 
         //request
         var serviceResponse = new RestServiceClient<GetDrinkRequest>()
@@ -63,8 +64,9 @@ public class DrinkService implements IDrinkService {
 
         //url
         var serviceHost = instanceInfo.getHomePageUrl();
-        var endpoint = "api/drink/" + drinkId;
-        var url = serviceHost + endpoint;
+        var endpoint = "api/drink/info";
+        var query = "?drinkId=" + drinkId;
+        var url = serviceHost + endpoint + query;
 
         //request
         var serviceResponse = new RestServiceClient<NoDataRequest>()
@@ -139,8 +141,9 @@ public class DrinkService implements IDrinkService {
 
         //url
         var serviceHost = instanceInfo.getHomePageUrl();
-        var endpoint = "api/drink/delete/" + drinkId;
-        var url = serviceHost + endpoint;
+        var endpoint = "api/drink/delete/";
+        var query = "?drinkId=" + drinkId;
+        var url = serviceHost + endpoint + query;
 
         //request
         var serviceResponse = new RestServiceClient<NoDataRequest>()
